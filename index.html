@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guitar Trainer Web - Treino em Etapas</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="logo-area">
+      <span class="guitar-icon">🎸</span>
+      <div>
+        <h1>Guitar Trainer Web</h1>
+        <p class="subtitle">Modo Etapas & Domínio</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button id="startAudioBtn" class="btn primary-btn">🔌 Conectar Joyo Momix</button>
+      <button id="playPauseBtn" class="btn success-btn" disabled>▶️ Iniciar Etapa</button>
+      
+      <div class="pedal-toggle">
+        <label for="distortionToggle">Pedal:</label>
+        <input type="checkbox" id="distortionToggle" checked>
+      </div>
+
+      <div class="pedal-toggle">
+        <label for="slowModeToggle">Modo Lento (70%):</label>
+        <input type="checkbox" id="slowModeToggle">
+      </div>
+
+      <div class="score-badge">
+        <span>Pontos</span>
+        <strong id="scoreDisplay">0</strong>
+      </div>
+    </div>
+  </header>
+
+  <!-- BARRA DE PROGRESSO DA ETAPA (DOMÍNIO) -->
+  <div class="stage-progress-bar-container">
+    <div class="stage-info-text">
+      <span id="currentStageLabel">Etapa 1: Carregando...</span>
+      <span id="masteryText">Domínio: 0%</span>
+    </div>
+    <div class="stage-track">
+      <div id="masteryFill" class="stage-fill"></div>
+    </div>
+  </div>
+
+  <main class="main-workspace">
+    <!-- PISTA DE NOTAS -->
+    <div class="canvas-wrapper">
+      <canvas id="tabCanvas"></canvas>
+      <div id="hitEffect" class="hit-line-effect"></div>
+    </div>
+
+    <!-- PAINEL LATERAL -->
+    <aside class="control-panel">
+      <!-- ÁUDIO & JOYO -->
+      <section class="panel-card">
+        <h3>🎚️ Painel de Som</h3>
+        <div class="pitch-display-box">
+          <span id="detectedNote">--</span>
+          <small id="detectedFreq">0.0 Hz</small>
+        </div>
+
+        <div class="volume-slider-group">
+          <div class="slider-header">
+            <label for="gainSlider">Volume Guitarra (Joyo)</label>
+            <span id="gainValue">100%</span>
+          </div>
+          <input type="range" id="gainSlider" min="0" max="300" value="100" class="custom-slider">
+        </div>
+
+        <div class="meter-container">
+          <span class="meter-label">Nível de Entrada USB</span>
+          <div class="meter-track">
+            <div id="volumeFill" class="meter-fill"></div>
+          </div>
+        </div>
+        <p id="statusMsg" class="status-text">Clique em "Conectar Joyo Momix".</p>
+      </section>
+
+      <!-- SELETOR DE MÚSICAS E ETAPAS -->
+      <section class="panel-card">
+        <h3>🎵 Músicas em Etapas</h3>
+        <select id="songSelect" class="custom-select">
+          <option value="comeAsYouAre">Nirvana - Come As You Are</option>
+          <option value="smells">Nirvana - Smells Like Teen Spirit</option>
+          <option value="smoke">Deep Purple - Smoke on the Water</option>
+          <option value="seven">White Stripes - Seven Nation Army</option>
+        </select>
+
+        <div class="stage-list-box" id="stageListBox">
+          <!-- Gerado via JS -->
+        </div>
+
+        <div class="divider">ou importar link / texto</div>
+
+        <div class="input-group" style="display: flex; gap: 4px; margin-bottom: 8px;">
+          <input type="text" id="cifrasUrlInput" placeholder="Cole o link do Cifras..." style="flex:1; padding:6px; background:#0b0e14; border:1px solid #232936; color:#fff; border-radius:4px; font-size:11px;" />
+          <button id="fetchUrlBtn" class="btn secondary-btn" style="font-size:11px; padding:4px 8px;">Link</button>
+        </div>
+
+        <div class="textarea-group">
+          <textarea id="cifrasInput" placeholder="Cole a tablatura aqui..."></textarea>
+          <button id="parseCifrasBtn" class="btn outline-btn">Dividir em Etapas</button>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <!-- MODAL DE CONCLUSÃO DA ETAPA -->
+  <div id="stageModal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h2>🎉 Etapa Dominada!</h2>
+      <p id="modalMsg">Atingiu 90%+ de precisão e desbloqueou a próxima etapa!</p>
+      <button id="nextStageBtn" class="btn success-btn">Avançar para Próxima Etapa</button>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
